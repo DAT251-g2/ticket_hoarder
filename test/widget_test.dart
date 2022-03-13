@@ -21,7 +21,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.settings));
     await tester.pump();
 
-    expect(find.text('0'), findsNothing);
+    expect(find.text('Nothing here yet'), findsNothing);
     expect(find.text('1'), findsNothing);
   });
 }

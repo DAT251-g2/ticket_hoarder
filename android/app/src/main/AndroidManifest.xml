@@ -4,6 +4,8 @@
         android:label="ticket_hoarder"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyASXbHQrYoFwJRNyHl_K7X6H7vZniJoNJ8"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
