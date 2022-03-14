@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -88,7 +89,9 @@ Future<Locations> getGoogleOffices() async {
       return Locations.fromJson(json.decode(response.body));
     }
   } catch (e) {
-    print(e);
+    //print(e);
+    DebugPrintCallback debugPrint = debugPrintThrottled;
+    debugPrint('debug: $e');
   }
 
   // Fallback for when the above HTTP request fails.
