@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'locations.dart' as locations;
+import 'package:location/location.dart';
+import 'package:ticket_hoarder/pages/mapPage.dart';
+import 'package:ticket_hoarder/pages/setttingsPage.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:ticket_hoarder/pages/mapPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Ticket Hoarder'),
     );
@@ -85,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MapScreen()),
+                MaterialPageRoute(builder: (context) => const MapPage()),
               );
             },
           )
@@ -105,81 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-    );
-  }
-}
-
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Second Route'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage(
-                          title: 'Ticket Hoarder',
-                        )));
-            // Navigate back to first route when tapped.
-          },
-          child: const Text('Nothing here yet'),
-        ),
-      ),
-    );
-  }
-}
-
-class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
-
-  @override
-  _MapScreenState1 createState() => _MapScreenState1();
-}
-
-class _MapScreenState1 extends State<MapScreen> {
-  final Map<String, Marker> _markers = {};
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final googleOffices = await locations.getGoogleOffices();
-    setState(() {
-      _markers.clear();
-      for (final office in googleOffices.offices) {
-        final marker = Marker(
-          markerId: MarkerId(office.name),
-          position: LatLng(office.lat, office.lng),
-          infoWindow: InfoWindow(
-            title: office.name,
-            snippet: office.address,
-          ),
-        );
-        _markers[office.name] = marker;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Google Office Locations'),
-          backgroundColor: Colors.green[700],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(0, 0),
-            zoom: 2,
-          ),
-          markers: _markers.values.toSet(),
-        ),
-      ),
     );
   }
 }

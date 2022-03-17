@@ -45,6 +45,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.ticket_hoarder"
+        compileSdkVersion 31
         minSdkVersion 20 // needed for google maps updated from 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

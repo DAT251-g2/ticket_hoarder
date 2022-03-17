@@ -38,6 +38,8 @@ dependencies:
   google_maps_flutter: ^2.1.2
   http: ^0.13.4
   json_serializable: ^6.1.5
+  geolocator: ^8.2.0
+  location: ^4.2.0
 
 dev_dependencies:
   flutter_test:
