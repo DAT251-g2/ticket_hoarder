@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:ticket_hoarder/pages/mapPage.dart';

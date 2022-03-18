@@ -1,5 +1,5 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'package:ticket_hoarder/pages/myHomePage.dart';
 
 class SettingsPage extends StatelessWidget {

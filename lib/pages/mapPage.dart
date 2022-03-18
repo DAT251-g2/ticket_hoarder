@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ticket_hoarder/main.dart' as ma;
 import 'package:ticket_hoarder/map/userLocation.dart' as loc;
 
 class MapPage extends StatefulWidget {
@@ -19,7 +18,6 @@ class MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     loc.UserLocation currLoc = loc.UserLocation();
     double latitude = currLoc.getLatitude;
-    print(latitude);
     return MaterialApp(
       home: GoogleMap(
         onMapCreated: _onMapCreated,
