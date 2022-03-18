@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ticket_hoarder/map/userLocation.dart' as loc;
+//import 'package:ticket_hoarder/map/userLocation.dart' as loc;
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -16,8 +16,8 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    loc.UserLocation currLoc = loc.UserLocation();
-    double latitude = currLoc.getLatitude;
+    //loc.UserLocation currLoc = loc.UserLocation();
+    //double latitude = currLoc.getLatitude;
     return MaterialApp(
       home: GoogleMap(
         onMapCreated: _onMapCreated,
