@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:ticket_hoarder/pages/mapPage.dart';
 import 'package:ticket_hoarder/pages/setttingsPage.dart';
+import 'package:ticket_hoarder/pages/testPage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -51,6 +52,16 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               onPressed: getMyLocationData,
               icon: Icon(Icons.panorama_horizontal)),
+          IconButton(
+            alignment: Alignment.bottomCenter,
+            icon: const Icon(Icons.do_disturb_alt_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TestPage()),
+              );
+            },
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
