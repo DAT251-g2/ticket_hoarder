@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:location/location.dart';
 
 class UserLocation {
