@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart'; //A flutter plugin that decodes encoded google polyline string into list of geo-coordinates suitable for showing route/polyline on maps
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -18,8 +18,10 @@ class Directions {
   static Directions? fromMap(Map<String, dynamic> map) {
     // Check if route is not available
     if ((map['routes'] as List).isEmpty) {
+      /*
       print(
-          "WARNING: Route not available?"); // TODO - for some reason map['routes'] is nullreturn null;
+          "WARNING: Route not available?"); 
+          */
       return null;
     }
 
@@ -43,7 +45,6 @@ class Directions {
       duration = leg['duration']['text'];
     }
 
-    print("You did it you fucking legend");
     return Directions(
         bounds: bounds,
         polylinePoints: PolylinePoints()

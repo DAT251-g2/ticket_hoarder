@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:ticket_hoarder/pages/testPage.dart';
+import 'package:ticket_hoarder/pages/test_page.dart';
 import 'package:ticket_hoarder/pages/map_page.dart';
 import 'package:ticket_hoarder/pages/setttings_page.dart';
 

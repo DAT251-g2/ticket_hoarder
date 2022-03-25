@@ -22,7 +22,7 @@ class MapPageState extends State<MapPage> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       position:
           const LatLng(60.36852657310426, 5.350100429246856)); // HVL Coords
-  final Map<String, Marker> _markers = {};
+  //final Map<String, Marker> _markers = {};
 
   Directions? info;
 
