@@ -38,7 +38,7 @@ class MapPageState extends State<MapPage> {
         title: const Text("Ticket Hoarder Map"),
         actions: [
           TextButton(
-              onPressed: () => findDirection,
+              onPressed: () => findDirection(),
               style: TextButton.styleFrom(
                   primary: Colors.white,
                   textStyle: const TextStyle(fontWeight: FontWeight.w600)),

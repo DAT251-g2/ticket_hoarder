@@ -32,7 +32,7 @@ class DirectionsRepository {
     );
 
     if (response.statusCode == 200) {
-      print("got response from Google");
+      print(response.data);
       return Directions.fromMap(response.data);
     }
     print("Did not get any helpful response from google");

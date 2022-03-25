@@ -17,9 +17,11 @@ class Directions {
 
   static Directions? fromMap(Map<String, dynamic> map) {
     // Check if route is not available
-    if ((map['routes'] as List).isEmpty) return null;
-
-    if ((map['routes'] as List).isEmpty) return null;
+    if ((map['routes'] as List).isEmpty) {
+      print(
+          "WARNING: Route not available?"); // TODO - for some reason map['routes'] is nullreturn null;
+      return null;
+    }
 
     // Get route information
     final data = Map<String, dynamic>.from(map['routes'][0]);
@@ -27,7 +29,10 @@ class Directions {
     // Bounds
     final ne = data['bounds']['northeast'];
     final sw = data['bounds']['southwest'];
-    final bounds = LatLngBounds(southwest: sw['lat'], northeast: ne['lat']);
+    final bounds = LatLngBounds(
+      northeast: LatLng(ne['lat'], ne['lng']),
+      southwest: LatLng(sw['lat'], sw['lng']),
+    );
 
     // Distance and Duration
     String distance = '';
@@ -38,6 +43,7 @@ class Directions {
       duration = leg['duration']['text'];
     }
 
+    print("You did it you fucking legend");
     return Directions(
         bounds: bounds,
         polylinePoints: PolylinePoints()
