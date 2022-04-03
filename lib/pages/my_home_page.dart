@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:ticket_hoarder/map/address_search.dart';
+import 'package:ticket_hoarder/map/place_service.dart';
 import 'package:ticket_hoarder/pages/test_page.dart';
 import 'package:ticket_hoarder/pages/map_page.dart';
 import 'package:ticket_hoarder/pages/setttings_page.dart';
+//import 'package:google_places_flutter/google_places_flutter.dart/';
+import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -15,8 +19,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double latitude = 60.3913;
   double longitude = 5.3221;
+  String _streetNumberFra = '';
+  String _streetFra = '';
+  String _streetNumberTil = '';
+  String _streetTil = '';
+  final _controller = TextEditingController();
+  final _controller2 = TextEditingController();
 
   TimeOfDay? time = const TimeOfDay(hour: 12, minute: 12);
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +41,77 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
+          TextField(
+            controller: _controller,
+            onTap: () async {
+              final sessionToken = const Uuid().v4();
+              final Suggestion? result = await showSearch(
+                context: context,
+                delegate: AddressSearch(sessionToken),
+              );
+              if (result != null) {
+                final placeDetails = await PlaceApiProvider(sessionToken)
+                    .getPlaceDetailFromId(result.placeId);
+                setState(() {
+                  _controller.text = result.description;
+                  _streetNumberFra = placeDetails.streetNumber;
+                  _streetFra = placeDetails.street;
+                });
+              }
+            },
+            // with some styling
+            decoration: InputDecoration(
+              icon: Container(
+                margin: const EdgeInsets.only(left: 20),
+                width: 10,
+                height: 10,
+                child: const Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+              ),
+              hintText: "Fra",
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(left: 8.0, top: 16.0),
+            ),
+          ),
+          TextField(
+            controller: _controller2,
+            onTap: () async {
+              final sessionToken = const Uuid().v4();
+              final Suggestion? result = await showSearch(
+                context: context,
+                delegate: AddressSearch(sessionToken),
+              );
+              if (result != null) {
+                final placeDetails = await PlaceApiProvider(sessionToken)
+                    .getPlaceDetailFromId(result.placeId);
+                setState(() {
+                  _controller2.text = result.description;
+                  _streetNumberTil = placeDetails.streetNumber;
+                  _streetTil = placeDetails.street;
+                });
+              }
+            },
+            // with some styling
+            decoration: InputDecoration(
+              icon: Container(
+                margin: const EdgeInsets.only(left: 20),
+                width: 10,
+                height: 10,
+                child: const Icon(
+                  Icons.work,
+                  color: Colors.black,
+                ),
+              ),
+              hintText: "Til",
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.only(left: 8.0, top: 16.0),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Text('Street: $_streetFra $_streetNumberFra'),
+          Text('Street: $_streetTil $_streetNumberTil'),
           Text(
             '${time!.hour.toString()}:${time!.minute.toString()}',
             style: const TextStyle(fontSize: 60),
