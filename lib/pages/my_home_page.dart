@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:ticket_hoarder/map/address_search.dart';
 import 'package:ticket_hoarder/map/place_service.dart';
@@ -21,8 +22,12 @@ class _MyHomePageState extends State<MyHomePage> {
   double longitude = 5.3221;
   String _streetNumberFra = '';
   String _streetFra = '';
+  LatLng _locationFra = const LatLng(0.0, 0.0);
   String _streetNumberTil = '';
   String _streetTil = '';
+  String _placeIdTil = '';
+  String _placeIdFra = '';
+  LatLng _locationTil = const LatLng(0.0, 0.0);
   final _controller = TextEditingController();
   final _controller2 = TextEditingController();
 
@@ -50,12 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 delegate: AddressSearch(sessionToken),
               );
               if (result != null) {
+                _placeIdTil = result.placeId;
                 final placeDetails = await PlaceApiProvider(sessionToken)
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
                   _controller.text = result.description;
                   _streetNumberFra = placeDetails.streetNumber;
                   _streetFra = placeDetails.street;
+                  _locationFra = placeDetails.location;
                 });
               }
             },
@@ -84,12 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 delegate: AddressSearch(sessionToken),
               );
               if (result != null) {
+                _placeIdTil = result.placeId;
                 final placeDetails = await PlaceApiProvider(sessionToken)
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
                   _controller2.text = result.description;
                   _streetNumberTil = placeDetails.streetNumber;
                   _streetTil = placeDetails.street;
+                  _locationTil = placeDetails.location;
                 });
               }
             },
@@ -127,15 +136,23 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           IconButton(
-            alignment: Alignment.bottomCenter,
-            icon: const Icon(Icons.map),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MapPage()),
-              );
-            },
-          ),
+              alignment: Alignment.bottomCenter,
+              icon: const Icon(Icons.map),
+              onPressed: () {
+                if (_streetFra != '' && _streetTil != '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MapPage(
+                              startPos: _placeIdFra,
+                              endPos: _placeIdTil,
+                              startLocation: _locationFra,
+                              endLocation: _locationTil,
+                            )),
+                  );
+                } else {}
+              } //else block should notify user of field with no input
+              ),
           IconButton(
               onPressed: getMyLocationData,
               icon: const Icon(Icons.panorama_horizontal)),

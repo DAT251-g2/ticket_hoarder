@@ -36,7 +36,8 @@ class AddressSearch extends SearchDelegate<Suggestion> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const MyHomePage(title: "Ticket Hoarder");
+    return const MyHomePage(
+        title: "Ticket Hoarder"); //todo this should be something else
   }
 
   @override

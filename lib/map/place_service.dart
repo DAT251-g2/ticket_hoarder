@@ -1,15 +1,18 @@
 import 'dart:convert';
 //import 'dart:io';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 
 class Place {
   String streetNumber = '';
   String street;
+  LatLng location;
 
   Place({
     streetNumber,
     required this.street,
+    required this.location,
   });
 }
 
@@ -36,7 +39,7 @@ class PlaceApiProvider {
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:no&key=$androidKey&sessiontoken=$sessionToken');
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&point:60.3913, 5.3221&types=address&language=$lang&components=country:no&key=$androidKey&sessiontoken=$sessionToken');
 
     final response = await client.get(request);
 
@@ -59,7 +62,7 @@ class PlaceApiProvider {
 
   Future<Place> getPlaceDetailFromId(String placeId) async {
     final request = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component&key=$androidKey&sessiontoken=$sessionToken');
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component,geometry&key=$androidKey&sessiontoken=$sessionToken');
 
     final response = await client.get(request);
 
@@ -68,8 +71,17 @@ class PlaceApiProvider {
       if (result['status'] == 'OK') {
         final components =
             result['result']['address_components'] as List<dynamic>;
-        // build result
-        final place = Place(street: '', streetNumber: '');
+        final locComp = result['result']['geometry'] as dynamic;
+
+        final place = Place(
+            street: '', streetNumber: '', location: const LatLng(0.0, 0.0));
+        var loc = locComp['location'];
+        if (loc != null) {
+          double lat = loc['lat'];
+          double lng = loc['lng'];
+          place.location = LatLng(lat, lng);
+        }
+
         for (var c in components) {
           final List type = c['types'];
           if (type.contains('street_number')) {
@@ -79,6 +91,7 @@ class PlaceApiProvider {
             place.street = c['long_name'];
           }
         }
+        //print(place.location);
         return place;
       }
       throw Exception(result['error_message']);

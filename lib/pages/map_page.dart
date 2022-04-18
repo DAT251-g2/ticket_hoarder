@@ -6,13 +6,38 @@ import 'package:ticket_hoarder/map/direction_repository.dart';
 //import 'package:ticket_hoarder/map/userLocation.dart' as loc;
 
 class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+  final String startPos;
+  final String endPos;
+  final LatLng endLocation;
+  final LatLng startLocation;
+
+  const MapPage(
+      {Key? key,
+      required this.startPos,
+      required this.endPos,
+      required this.endLocation,
+      required this.startLocation})
+      : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
+  @override
+  void initState() {
+    _startPos = widget.startPos;
+    _endPos = widget.endPos;
+    _startLocation = widget.startLocation;
+    _endLocation = widget.endLocation;
+    super.initState();
+  }
+
+  String _startPos = '';
+  String _endPos = '';
+  LatLng _startLocation = const LatLng(0.0, 0.0);
+  LatLng _endLocation = const LatLng(0.0, 0.0);
+
   // GoogleMapController _mapController;
   Marker origin = const Marker(
       markerId: MarkerId("origin"), position: LatLng(60.3913, 5.3221));
@@ -26,16 +51,17 @@ class _MapPageState extends State<MapPage> {
 
   static const noPos = LatLng(0.0, 0.0);
 
-  Marker _aPlace = Marker(
-    markerId: const MarkerId("_aPlace"),
-    infoWindow: const InfoWindow(title: "TODO: add name of Aplace here"),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-  );
-  Marker _bPlace = Marker(
-    markerId: const MarkerId("_bPlace"),
-    infoWindow: const InfoWindow(title: "TODO: add name of Bplace here"),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-  );
+  Marker get _aPlace => Marker(
+      markerId: const MarkerId("_aPlace"),
+      infoWindow: InfoWindow(title: _startPos),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      position: _startLocation);
+  Marker get _bPlace => Marker(
+      markerId: const MarkerId("_aPlace"),
+      infoWindow: InfoWindow(title: _endPos),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      position: _endLocation);
+
   //final Map<String, Marker> _markers = {};
 
   Directions? info;
@@ -46,6 +72,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     //loc.UserLocation currLoc = loc.UserLocation();
     //double latitude = currLoc.getLatitude;
+    findDirection();
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -69,18 +96,15 @@ class _MapPageState extends State<MapPage> {
               zoom: 12,
             ),
             //markers: {origin, destination},
-            markers: {
-              if (_aPlace.position != noPos) _aPlace,
-              if (_bPlace.position != noPos) _bPlace
-            },
-            onLongPress: _addMarker,
+            markers: {_aPlace, _bPlace},
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
+
             polylines: {
               if (info != null)
                 Polyline(
                   polylineId: const PolylineId('overview'),
-                  color: Colors.lime,
+                  color: const Color.fromARGB(255, 57, 95, 220),
                   width: 5,
                   points: info!.polylinePoints
                       .map((e) => LatLng(e.latitude, e.longitude))
@@ -126,37 +150,6 @@ class _MapPageState extends State<MapPage> {
       final directions = await DirectionsRepository().getDirections(
           origin: _aPlace.position, destination: _bPlace.position);
       setState(() => info = directions!);
-    }
-  }
-
-  void _addMarker(LatLng pos) {
-    if (_aPlace.position == noPos ||
-        (_aPlace.position != noPos && _bPlace.position != noPos)) {
-      setState(() {
-        _aPlace = Marker(
-            markerId: const MarkerId("_aPlace"),
-            infoWindow:
-                const InfoWindow(title: "TODO: add name of Aplace here"),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueGreen),
-            position: pos);
-        _bPlace = Marker(
-          markerId: const MarkerId("_bPlace"),
-          infoWindow: const InfoWindow(title: "TODO: add name of Bplace here"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-        );
-      });
-    } else {
-      setState(() {
-        _bPlace = Marker(
-            markerId: const MarkerId("_bPlace"),
-            infoWindow:
-                const InfoWindow(title: "TODO: add name of Bplace here"),
-            icon:
-                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-            position: pos);
-      });
-      findDirection();
     }
   }
 }
