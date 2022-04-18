@@ -25,8 +25,8 @@ class _MyHomePageState extends State<MyHomePage> {
   LatLng _locationFra = const LatLng(0.0, 0.0);
   String _streetNumberTil = '';
   String _streetTil = '';
-  String _placeIdTil = '';
-  String _placeIdFra = '';
+  final String _placeIdTil = '';
+  final String _placeIdFra = '';
   LatLng _locationTil = const LatLng(0.0, 0.0);
   final _controller = TextEditingController();
   final _controller2 = TextEditingController();
@@ -55,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 delegate: AddressSearch(sessionToken),
               );
               if (result != null) {
-                _placeIdTil = result.placeId;
                 final placeDetails = await PlaceApiProvider(sessionToken)
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
@@ -91,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 delegate: AddressSearch(sessionToken),
               );
               if (result != null) {
-                _placeIdTil = result.placeId;
                 final placeDetails = await PlaceApiProvider(sessionToken)
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
