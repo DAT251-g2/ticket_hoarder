@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ticket_hoarder/map/direction_model.dart';
 import 'package:ticket_hoarder/map/direction_repository.dart';
+import 'package:ticket_hoarder/models/transport_model.dart';
+import 'package:ticket_hoarder/pages/route_page.dart';
 
 //import 'package:ticket_hoarder/map/userLocation.dart' as loc;
 
@@ -65,6 +69,7 @@ class _MapPageState extends State<MapPage> {
   //final Map<String, Marker> _markers = {};
 
   Directions? info;
+  late Map<String, dynamic> data;
 
   Future<void> _onMapCreated(GoogleMapController controller) async {}
 
@@ -72,7 +77,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     //loc.UserLocation currLoc = loc.UserLocation();
     //double latitude = currLoc.getLatitude;
-    findDirection();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -83,7 +88,13 @@ class _MapPageState extends State<MapPage> {
               style: TextButton.styleFrom(
                   primary: Colors.white,
                   textStyle: const TextStyle(fontWeight: FontWeight.w600)),
-              child: const Text('Get Direction'))
+              child: const Text('Get Direction')),
+          TextButton(
+              onPressed: () => handleOnpress(),
+              style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  textStyle: const TextStyle(fontWeight: FontWeight.w600)),
+              child: const Text('See direction information')),
         ],
       ),
       body: Stack(
@@ -151,5 +162,23 @@ class _MapPageState extends State<MapPage> {
           origin: _aPlace.position, destination: _bPlace.position);
       setState(() => info = directions!);
     }
+  }
+
+  Future<void> getDirectionData() async {
+    // LatLng pos <- potential parameter?
+
+    // Get directions
+    if (_aPlace.position != noPos && _bPlace.position != noPos) {
+      final directionData = await DirectionsRepository()
+          .getData(origin: _aPlace.position, destination: _bPlace.position);
+      setState(() => data = directionData!);
+    }
+  }
+
+  Future<void> handleOnpress() async {
+    await getDirectionData();
+    inspect(data);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => RoutePage(map: data)));
   }
 }
