@@ -1,11 +1,7 @@
 //import 'package:flutter/foundation.dart';
 
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter_polyline_points/flutter_polyline_points.dart'; //A flutter plugin that decodes encoded google polyline string into list of geo-coordinates suitable for showing route/polyline on maps
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:convert';
 
 import 'package:ticket_hoarder/models/transport_model.dart';
 
@@ -32,7 +28,7 @@ class Directions {
       return null;
     }
 
-    inspect(map);
+    //inspect(map);
 
     //File file = File("json_test.json");
     //file.writeAsString(s);

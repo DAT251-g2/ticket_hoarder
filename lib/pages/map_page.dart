@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ticket_hoarder/map/direction_model.dart';
 import 'package:ticket_hoarder/map/direction_repository.dart';
-import 'package:ticket_hoarder/models/transport_model.dart';
 import 'package:ticket_hoarder/pages/route_page.dart';
 
 //import 'package:ticket_hoarder/map/userLocation.dart' as loc;
@@ -177,7 +174,7 @@ class _MapPageState extends State<MapPage> {
 
   Future<void> handleOnpress() async {
     await getDirectionData();
-    inspect(data);
+    //inspect(data);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => RoutePage(map: data)));
   }

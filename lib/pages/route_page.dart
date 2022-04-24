@@ -33,7 +33,6 @@ class _RoutePage extends State<RoutePage> {
   }
 
   List<TransportInterface> getGoogleResponse() {
-    print("kfjkalsdjf <------------------");
     TransportModel transportObject = TransportModel();
     transportObject.setItems(widget.map['routes'][0]);
     return transportObject.transportItems;

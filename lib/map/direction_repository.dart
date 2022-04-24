@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart'; // couldn't figure out http
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+
 //import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ticket_hoarder/.env.dart';
 import 'package:ticket_hoarder/map/direction_model.dart';
-import 'package:ticket_hoarder/models/transport_model.dart';
 
 class DirectionsRepository {
   static const String baseUrl =
@@ -58,7 +57,6 @@ class DirectionsRepository {
     );
 
     if (response.statusCode == 200) {
-      print("hello");
       return response.data;
     }
     //print("Did not get any helpful response from google");

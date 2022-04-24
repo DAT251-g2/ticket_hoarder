@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ticket_hoarder/models/bus_model.dart';
 import 'package:ticket_hoarder/models/transport_interface.dart';
 import 'package:ticket_hoarder/models/walk_model.dart';
