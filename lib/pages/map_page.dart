@@ -76,15 +76,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: const Text("Ticket Hoarder Map"),
-        actions: [
-          TextButton(
-              onPressed: () => findDirection(),
-              style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  textStyle: const TextStyle(fontWeight: FontWeight.w600)),
-              child: const Text('Get Direction'))
-        ],
+        title: const Text("Rute"),
       ),
       body: Stack(
         alignment: Alignment.center,

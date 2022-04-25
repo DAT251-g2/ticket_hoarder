@@ -5,7 +5,7 @@ import 'package:ticket_hoarder/map/address_search.dart';
 import 'package:ticket_hoarder/map/place_service.dart';
 import 'package:ticket_hoarder/pages/test_page.dart';
 import 'package:ticket_hoarder/pages/map_page.dart';
-import 'package:ticket_hoarder/pages/setttings_page.dart';
+import 'package:ticket_hoarder/pages/settings_page.dart';
 //import 'package:google_places_flutter/google_places_flutter.dart/';
 import 'package:uuid/uuid.dart';
 
@@ -20,10 +20,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double latitude = 60.3913;
   double longitude = 5.3221;
-  String _streetNumberFra = '';
   String _streetFra = '';
   LatLng _locationFra = const LatLng(0.0, 0.0);
-  String _streetNumberTil = '';
   String _streetTil = '';
   final String _placeIdTil = '';
   final String _placeIdFra = '';
@@ -59,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
                   _controller.text = result.description;
-                  _streetNumberFra = placeDetails.streetNumber;
                   _streetFra = placeDetails.street;
                   _locationFra = placeDetails.location;
                 });
@@ -94,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     .getPlaceDetailFromId(result.placeId);
                 setState(() {
                   _controller2.text = result.description;
-                  _streetNumberTil = placeDetails.streetNumber;
                   _streetTil = placeDetails.street;
                   _locationTil = placeDetails.location;
                 });
@@ -116,54 +112,44 @@ class _MyHomePageState extends State<MyHomePage> {
               contentPadding: const EdgeInsets.only(left: 8.0, top: 16.0),
             ),
           ),
-          const SizedBox(height: 20.0),
-          Text('Street: $_streetFra $_streetNumberFra'),
-          Text('Street: $_streetTil $_streetNumberTil'),
-          Text(
-            '${time!.hour.toString()}:${time!.minute.toString()}',
-            style: const TextStyle(fontSize: 60),
-          ),
-          IconButton(
-            alignment: Alignment.bottomCenter,
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
-              );
-            },
-          ),
-          IconButton(
-              alignment: Alignment.bottomCenter,
-              icon: const Icon(Icons.map),
-              onPressed: () {
-                if (_streetFra != '' && _streetTil != '') {
+          Row(
+            children: [
+              Text(
+                '${time!.hour.toString()}:${time!.minute.toString()}',
+                style: const TextStyle(fontSize: 10),
+              ),
+              IconButton(
+                  alignment: Alignment.bottomCenter,
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    getMyLocationData();
+                    if (_streetFra != '' && _streetTil != '') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapPage(
+                                  startPos: _placeIdFra,
+                                  endPos: _placeIdTil,
+                                  startLocation: _locationFra,
+                                  endLocation: _locationTil,
+                                )),
+                      );
+                    } else {}
+                  } //else block should notify user of field with no input
+                  ),
+              IconButton(
+                alignment: Alignment.bottomCenter,
+                icon: const Icon(Icons.settings),
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MapPage(
-                              startPos: _placeIdFra,
-                              endPos: _placeIdTil,
-                              startLocation: _locationFra,
-                              endLocation: _locationTil,
-                            )),
+                        builder: (context) => const SettingsPage()),
                   );
-                } else {}
-              } //else block should notify user of field with no input
+                },
               ),
-          IconButton(
-              onPressed: getMyLocationData,
-              icon: const Icon(Icons.panorama_horizontal)),
-          IconButton(
-            alignment: Alignment.bottomCenter,
-            icon: const Icon(Icons.do_disturb_alt_outlined),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TestPage()),
-              );
-            },
-          )
+            ],
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -181,10 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
-  }
-
-  double get getLatitude {
-    return latitude;
   }
 
   void getMyLocationData() async {
