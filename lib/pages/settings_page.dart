@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 //import '../main.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:ticket_hoarder/pages/my_home_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -26,7 +24,11 @@ class _SettingsPage extends State<SettingsPage> {
         children: [
           CheckboxListTile(
             value: buss,
-            onChanged: (buss) => this.buss = buss!,
+            onChanged: (value) {
+              setState(() {
+                buss = value!;
+              });
+            },
             title: const Text(
               'Buss',
               style: TextStyle(fontSize: 10),
@@ -34,7 +36,11 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           CheckboxListTile(
             value: bybane,
-            onChanged: (bybane) => this.bybane = bybane!,
+            onChanged: (value) {
+              setState(() {
+                bybane = value!;
+              });
+            },
             title: const Text(
               'Bybane',
               style: TextStyle(fontSize: 10),
@@ -42,7 +48,11 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           CheckboxListTile(
             value: bysykkel,
-            onChanged: (bysykkel) => this.bysykkel = bysykkel!,
+            onChanged: (value) {
+              setState(() {
+                bysykkel = value!;
+              });
+            },
             title: const Text(
               'Bysykkel',
               style: TextStyle(fontSize: 10),
@@ -50,7 +60,11 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           CheckboxListTile(
             value: sparkesykkel,
-            onChanged: (sparkesykkel) => this.sparkesykkel = sparkesykkel!,
+            onChanged: (value) {
+              setState(() {
+                sparkesykkel = value!;
+              });
+            },
             title: const Text(
               'Sparkesykkel',
               style: TextStyle(fontSize: 10),
