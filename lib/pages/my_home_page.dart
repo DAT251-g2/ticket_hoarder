@@ -5,7 +5,6 @@ import 'package:ticket_hoarder/map/address_search.dart';
 import 'package:ticket_hoarder/map/place_service.dart';
 import 'package:ticket_hoarder/pages/map_page.dart';
 import 'package:ticket_hoarder/pages/settings_page.dart';
-//import 'package:google_places_flutter/google_places_flutter.dart/';
 import 'package:uuid/uuid.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -112,32 +111,43 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
                 '${time!.hour.toString()}:${time!.minute.toString()}',
-                style: const TextStyle(fontSize: 10),
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 40,
+                width: 250,
+                child: TextButton.icon(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black,
+                      backgroundColor: Colors.green,
+                    ),
+                    icon: const Icon(Icons.search),
+                    label: const Text('Søk'),
+                    onPressed: () {
+                      getMyLocationData();
+                      if (_streetFra != '' && _streetTil != '') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MapPage(
+                                    startPos: _placeIdFra,
+                                    endPos: _placeIdTil,
+                                    startLocation: _locationFra,
+                                    endLocation: _locationTil,
+                                  )),
+                        );
+                      } else {}
+                    } //else block should notify user of field with no input
+                    ),
               ),
               IconButton(
-                  alignment: Alignment.bottomCenter,
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    getMyLocationData();
-                    if (_streetFra != '' && _streetTil != '') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MapPage(
-                                  startPos: _placeIdFra,
-                                  endPos: _placeIdTil,
-                                  startLocation: _locationFra,
-                                  endLocation: _locationTil,
-                                )),
-                      );
-                    } else {}
-                  } //else block should notify user of field with no input
-                  ),
-              IconButton(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.bottomRight,
                 icon: const Icon(Icons.settings),
                 onPressed: () {
                   Navigator.push(
