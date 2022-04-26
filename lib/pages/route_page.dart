@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_hoarder/models/all_direction_model.dart';
 import 'package:ticket_hoarder/models/transport_interface.dart';
 import 'package:ticket_hoarder/models/transport_model.dart';
 
 //import 'package:flutter_js/flutter_js.dart';
 
 class RoutePage extends StatefulWidget {
-  final Map<String, dynamic> map;
+  final AllDirectionModel map;
 
   const RoutePage({Key? key, required this.map}) : super(key: key);
 
@@ -27,20 +28,20 @@ class _RoutePage extends State<RoutePage> {
         ),
         body: Column(
           children: <Widget>[
-            Expanded(child: PostList(listItems: getGoogleResponse()))
+            Expanded(child: PostList(listItems: widget.map.directions))
           ],
         ));
   }
 
   List<TransportInterface> getGoogleResponse() {
     TransportModel transportObject = TransportModel();
-    transportObject.setItems(widget.map['routes'][0]);
+    //transportObject.setItems(widget.map['routes'][0]);
     return transportObject.transportItems;
   }
 }
 
 class PostList extends StatefulWidget {
-  final List<TransportInterface> listItems;
+  final List<TransportModel> listItems;
 
   const PostList({Key? key, required this.listItems}) : super(key: key);
 

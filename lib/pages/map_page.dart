@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ticket_hoarder/map/direction_model.dart';
 import 'package:ticket_hoarder/map/direction_repository.dart';
+import 'package:ticket_hoarder/models/all_direction_model.dart';
 import 'package:ticket_hoarder/pages/route_page.dart';
 
 //import 'package:ticket_hoarder/map/userLocation.dart' as loc;
@@ -66,7 +69,7 @@ class _MapPageState extends State<MapPage> {
   //final Map<String, Marker> _markers = {};
 
   Directions? info;
-  late Map<String, dynamic> data;
+  late AllDirectionModel data;
 
   Future<void> _onMapCreated(GoogleMapController controller) async {}
 
@@ -78,9 +81,6 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-<<<<<<< HEAD
-        title: const Text("Rute"),
-=======
         title: const Text("Ticket Hoarder Map"),
         actions: [
           TextButton(
@@ -96,7 +96,6 @@ class _MapPageState extends State<MapPage> {
                   textStyle: const TextStyle(fontWeight: FontWeight.w600)),
               child: const Text('See direction information')),
         ],
->>>>>>> b10f7e702cdaf2d26e443eadc4fc9bd59a1cd8f9
       ),
       body: Stack(
         alignment: Alignment.center,
@@ -169,10 +168,26 @@ class _MapPageState extends State<MapPage> {
     // LatLng pos <- potential parameter?
 
     // Get directions
+
     if (_aPlace.position != noPos && _bPlace.position != noPos) {
-      final directionData = await DirectionsRepository()
-          .getData(origin: _aPlace.position, destination: _bPlace.position);
-      setState(() => data = directionData!);
+      List<Map<String, dynamic>> directionData = [];
+      final directionDataTranist = await DirectionsRepository().getTransitData(
+          origin: _aPlace.position, destination: _bPlace.position);
+
+      final directionDataWalking = await DirectionsRepository().getWalkingData(
+          origin: _aPlace.position, destination: _bPlace.position);
+
+      final directionDataBicycling = await DirectionsRepository()
+          .getBicyclingData(
+              origin: _aPlace.position, destination: _bPlace.position);
+
+      directionData.add(directionDataTranist!);
+      directionData.add(directionDataWalking!);
+      //directionData.add(directionDataBicycling!);
+
+      AllDirectionModel allDirections = AllDirectionModel();
+      allDirections.setItems(directionData);
+      setState(() => data = allDirections);
     }
   }
 

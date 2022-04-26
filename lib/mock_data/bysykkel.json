@@ -1,0 +1,47 @@
+{
+    "last_updated": 1540309984,
+    "data": {
+       "stations": [
+          {
+             "address": "Akvariet",
+             "capacity": 12,
+             "lon": 5.304926,
+             "name": "Akvariet",
+             "station_id": "221",
+             "lat": 60.399926,
+             "num_bikes_available": 7,
+             "num_docks_available": 5
+          },
+          {
+             "address": "Festplassen",
+             "capacity": 20,
+             "lon": 5.325631,
+             "name": "Festplassen",
+             "station_id": "222",
+             "lat": 60.391184,
+             "num_bikes_available": 12,
+             "num_docks_available": 8
+          },
+          {
+             "address": "Florida Bybanestopp",
+             "capacity": 24,
+             "lon": 5.332329,
+             "name": "Florida Bybanestopp",
+             "station_id": "223",
+             "lat": 60.382182,
+             "num_bikes_available": 22,
+             "num_docks_available": 2
+          },
+          {
+            "address": "Høgskulen på Vestlandet",
+            "capacity": 24,
+            "lon": 5.349416,
+            "name": "Høgskulen på Vestlandet",
+            "station_id": "224",
+            "lat": 60.369178,
+            "num_bikes_available": 2,
+            "num_docks_available": 22
+         }
+        ]
+      }
+    }

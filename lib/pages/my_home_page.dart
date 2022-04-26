@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:ticket_hoarder/map/address_search.dart';
 import 'package:ticket_hoarder/map/place_service.dart';
-import 'package:ticket_hoarder/pages/test_page.dart';
 import 'package:ticket_hoarder/pages/map_page.dart';
 import 'package:ticket_hoarder/pages/settings_page.dart';
 //import 'package:google_places_flutter/google_places_flutter.dart/';

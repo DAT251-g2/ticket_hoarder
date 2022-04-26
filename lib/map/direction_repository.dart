@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart'; // couldn't figure out http
 
 //import 'package:flutter/foundation.dart';
@@ -42,13 +44,14 @@ class DirectionsRepository {
     return null;
   }
 
-  Future<Map<String, dynamic>?> getData({
+  Future<Map<String, dynamic>?> getTransitData({
     required LatLng origin,
     required LatLng destination,
   }) async {
     final response = await _dio.get(
       baseUrl,
       queryParameters: {
+        'alternatives': 'true',
         'origin': '${origin.latitude}, ${origin.longitude}',
         'destination': '${destination.latitude}, ${destination.longitude}',
         'mode': "transit",
@@ -57,6 +60,51 @@ class DirectionsRepository {
     );
 
     if (response.statusCode == 200) {
+      inspect(response.data);
+      return response.data;
+    }
+    //print("Did not get any helpful response from google");
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> getWalkingData({
+    required LatLng origin,
+    required LatLng destination,
+  }) async {
+    final response = await _dio.get(
+      baseUrl,
+      queryParameters: {
+        'origin': '${origin.latitude}, ${origin.longitude}',
+        'destination': '${destination.latitude}, ${destination.longitude}',
+        'mode': "walking",
+        'key': googleAPIKey,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      inspect(response.data);
+      return response.data;
+    }
+    //print("Did not get any helpful response from google");
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> getBicyclingData({
+    required LatLng origin,
+    required LatLng destination,
+  }) async {
+    final response = await _dio.get(
+      baseUrl,
+      queryParameters: {
+        'origin': '${origin.latitude}, ${origin.longitude}',
+        'destination': '${destination.latitude}, ${destination.longitude}',
+        'mode': "bicycling",
+        'key': googleAPIKey,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      inspect(response.data);
       return response.data;
     }
     //print("Did not get any helpful response from google");
