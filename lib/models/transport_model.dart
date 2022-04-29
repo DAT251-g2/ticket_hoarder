@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ticket_hoarder/models/bus_model.dart';
 import 'package:ticket_hoarder/models/transport_interface.dart';
 import 'package:ticket_hoarder/models/walk_model.dart';
@@ -31,10 +29,6 @@ class TransportModel {
   }
 
   void setMainTransport(transport) {
-    print("############################################");
-    print("transport $transport");
-    print("transport value ${tansHierarchy[transport]}");
-
     if (transportValue < tansHierarchy[transport]) {
       transportValue = tansHierarchy[transport];
       mainTransport = transport;

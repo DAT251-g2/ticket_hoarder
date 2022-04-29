@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ticket_hoarder/map/direction_model.dart';
@@ -177,9 +175,9 @@ class _MapPageState extends State<MapPage> {
       final directionDataWalking = await DirectionsRepository().getWalkingData(
           origin: _aPlace.position, destination: _bPlace.position);
 
-      final directionDataBicycling = await DirectionsRepository()
-          .getBicyclingData(
-              origin: _aPlace.position, destination: _bPlace.position);
+      //final directionDataBicycling = await DirectionsRepository()
+      //    .getBicyclingData(
+      //        origin: _aPlace.position, destination: _bPlace.position);
 
       directionData.add(directionDataTranist!);
       directionData.add(directionDataWalking!);
