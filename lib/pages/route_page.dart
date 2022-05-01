@@ -53,20 +53,65 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.listItems.length,
-      itemBuilder: (context, index) {
-        var item = widget.listItems[index];
-        return Card(
-            child: Row(
-          children: <Widget>[
-            Expanded(
-                child: ListTile(
-                    title: Text(item.printTitle()),
-                    subtitle: Text(item.printInfo()))),
-            //Row(children: <Widget>[Icon(Icon)],)
-          ],
+        itemCount: widget.listItems.length,
+        itemBuilder: (context, index) {
+          var item = widget.listItems[index];
+          return Card(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ItemList(transportItems: item.transportItems)));
+              },
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ListTile(
+                        title: Text(item.transportTitle),
+                        subtitle: Text(item.printInfo())),
+                  ),
+                  item.getIcon(),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}
+
+class ItemList extends StatefulWidget {
+  final List<TransportInterface> transportItems;
+
+  const ItemList({Key? key, required this.transportItems}) : super(key: key);
+
+  @override
+  State<ItemList> createState() => _ItemListState();
+}
+
+class _ItemListState extends State<ItemList> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Route information'),
+        ),
+        body: ListView.builder(
+          itemCount: widget.transportItems.length,
+          itemBuilder: (context, index) {
+            var item = widget.transportItems[index];
+            return Card(
+                child: Row(
+              children: <Widget>[
+                Expanded(
+                    child: ListTile(
+                        title: Text(item.printTitle()),
+                        subtitle: Text(item.printInfo()))),
+                //Row(children: <Widget>[Icon(Icon)],)
+              ],
+            ));
+          },
         ));
-      },
-    );
   }
 }

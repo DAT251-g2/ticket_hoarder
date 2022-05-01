@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ticket_hoarder/models/bus_model.dart';
 import 'package:ticket_hoarder/models/transport_interface.dart';
 import 'package:ticket_hoarder/models/walk_model.dart';
@@ -9,12 +10,27 @@ class TransportModel {
   String? duration;
   int? durationValue;
   String? distance;
+  String transportTitle = "Error";
 
-  TransportModel({
-    this.duration,
-    this.durationValue,
-    this.distance,
-  });
+  Icon icon = const Icon(
+    Icons.question_answer_outlined,
+    color: Colors.grey,
+    size: 36,
+  );
+
+  TransportModel({this.duration, this.durationValue, this.distance});
+
+  //Color stuff
+  Map iconColor = {
+    4: const Color.fromARGB(255, 245, 136, 128),
+    3: Colors.grey,
+    2: Colors.grey
+  };
+  Map iconIcon = {
+    4: Icons.directions_bus_filled,
+    3: Icons.directions_bike,
+    2: Icons.directions_walk_outlined
+  };
 
   Map tansHierarchy = {"transit": 4, "bicycling": 3, "walking": 2};
   int transportValue = 0;
@@ -26,12 +42,16 @@ class TransportModel {
     duration = directionData["duration"]["text"];
     durationValue = directionData["duration"]["value"];
     distance = directionData["distance"]["text"];
+    if (directionData.length == 11) {
+      duration = directionData["arrival_time"]["text"];
+    }
   }
 
-  void setMainTransport(transport) {
+  void setMainTransport(transport, transportItem) {
     if (transportValue < tansHierarchy[transport]) {
       transportValue = tansHierarchy[transport];
       mainTransport = transport;
+      transportTitle = transportItem.tTitle;
     }
   }
 
@@ -40,23 +60,36 @@ class TransportModel {
       if (item["travel_mode"] == "TRANSIT") {
         TransportInterface transportItem = BusModel.fromJson(item);
         transportItems.add(transportItem);
-        setMainTransport("transit");
+        setMainTransport("transit", transportItem);
       } else if (item["travel_mode"] == "WALKING") {
         TransportInterface transportItem = WalkModel.fromJson(item);
         transportItems.add(transportItem);
-        setMainTransport("walking");
+        setMainTransport("walking", transportItem);
       }
     }
+    setIcon();
   }
 
   String printInfo() {
-    String output = 'Estimated time: $duration\n'
-        'Estimated $distance';
+    String output = 'Ankommer destinasjonen: $duration\n'
+        'Distanse $distance';
     return output;
   }
 
   String printTitle() {
     String output = 'Transportation choice: $mainTransport';
     return output;
+  }
+
+  void setIcon() {
+    icon = Icon(
+      iconIcon[transportValue],
+      color: iconColor[transportValue],
+      size: 36.0,
+    );
+  }
+
+  Icon getIcon() {
+    return icon;
   }
 }

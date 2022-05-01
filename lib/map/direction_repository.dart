@@ -60,7 +60,6 @@ class DirectionsRepository {
     );
 
     if (response.statusCode == 200) {
-      inspect(response.data);
       return response.data;
     }
     //print("Did not get any helpful response from google");
@@ -82,7 +81,6 @@ class DirectionsRepository {
     );
 
     if (response.statusCode == 200) {
-      inspect(response.data);
       return response.data;
     }
     //print("Did not get any helpful response from google");

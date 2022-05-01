@@ -12,6 +12,8 @@ class BusModel implements TransportInterface {
   String? arrivalTime;
   String? arrivalAddress;
 
+  String tTitle = "Error";
+
   //String? stopNameArrival;
   //String? stopNameDepature;
 
@@ -35,11 +37,25 @@ class BusModel implements TransportInterface {
 
     arrivalTime = routeStepsItem["transit_details"]["arrival_time"]["text"];
     arrivalAddress = routeStepsItem["transit_details"]["arrival_stop"]["name"];
+    setTTitle();
   }
 
   @override
   String toString() {
     return '{ $busNr, $busName, $depatureTime, $depatureAddress, $arrivalTime, $arrivalAddress }';
+  }
+
+  String bussBybane() {
+    if (busNr == "1") {
+      return "bybanen";
+    } else {
+      return '$busNr - bussen';
+    }
+  }
+
+  void setTTitle() {
+    String bussStr = bussBybane();
+    tTitle = 'Ta $bussStr til $arrivalAddress';
   }
 
   @override

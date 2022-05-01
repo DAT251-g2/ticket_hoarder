@@ -10,9 +10,27 @@ class WalkModel implements TransportInterface {
 
   String? length;
   String? duration;
+  String tTitle = "Error";
 
   //String? stopNameArrival;
   //String? stopNameDepature;
+
+  List<String> remove = [
+    "<b>",
+    "</b>",
+    "<",
+    ">",
+    "/>",
+    "div",
+    '"style=font-size:0.9em"',
+    "/",
+    "wbr",
+    "style",
+    "=",
+    '"',
+    "font-size:"
+        "0.9em"
+  ];
 
   WalkModel({
     this.title,
@@ -31,6 +49,7 @@ class WalkModel implements TransportInterface {
 
     length = routeStepsItem["distance"]["text"];
     duration = routeStepsItem["duration"]["text"];
+    setTTitle();
   }
 
   @override
@@ -41,7 +60,14 @@ class WalkModel implements TransportInterface {
   @override
   String printTitle() {
     String output = '$title';
+    for (final item in remove) {
+      output = output.replaceAll(item, "");
+    }
     return output;
+  }
+
+  void setTTitle() {
+    tTitle = 'Gå til destinasjonen';
   }
 
   @override
