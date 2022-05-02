@@ -34,7 +34,7 @@ class PlaceApiProvider {
   final dynamic sessionToken;
   PlaceApiProvider(this.sessionToken);
 
-  static const String androidKey = 'AIzaSyBccZx0jfVDXu0zVGRdHC9lq_w6Pp5Twmo';
+  static const String androidKey = '';
   //static final String iosKey = 'YOUR_API_KEY_HERE';
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
